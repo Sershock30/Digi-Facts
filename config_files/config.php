@@ -25,8 +25,8 @@ $ext = ".php";
 //etc
 
 //Información del sitio (Titulo, nombre de compañia, lenguaje)
-$Page_Title = "Factura Electrónica";
-$Nombre_Compania= "Factura Electrónica";
+$Page_Title = "Digi Facts";
+$Nombre_Compania= "Digi Facts";
 $Lang = "es";
 $Charset="U T F-8";
 

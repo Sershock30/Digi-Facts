@@ -68,7 +68,6 @@
                                 <input type="number"
                                     onfocus="this.value = '';"
                                     onblur="if(this.value == ''){this.value = '1'}"
-                                    onkeypress="ActualizaPrecios();"
                                     class="form-control input-sm linea_cantidad" 
                                     placeholder="Cantidad:" 
                                     value="1">
@@ -142,6 +141,7 @@
                             <!-- Texto a la derecha y colspan para ajustar posición de la factura -->
     						<td colspan="3" class="text-right">
                                 <!-- Button group para acomodar ambos botones en linea sin necesidad de div o estilos extra -->
+                                <p class="text-danger">NOTA: Verificar los datos antes de clickear el botón de Finalizar Factura.</p>
     							<p class="btn-group">
                                     <!-- Boton para limpiar los datos -->
 								  	<div class="btn-group">
