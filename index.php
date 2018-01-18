@@ -1,6 +1,7 @@
 <?php  
 
 session_start();
+//se inicia la sesion
 
 if (file_exists("config_files/stpphp")) {
 	header("location:setup.php");
