@@ -81,7 +81,7 @@ para referenciar un tema de Bootstrap, dejar en la llave bs y el tema en el indi
 */
 
 $Styles = [
-	"bootstrap" => "paper",
+	"bootstrap" => "cosmo",
 	"main" => "main"
 ];
 

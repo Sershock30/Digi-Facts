@@ -67,9 +67,16 @@ function ActualizaPrecios(){
 
 //se establece la variable de la linea
 var linea = `<tr class="linea_factura">
-    		<td><input type="number" class="form-control input-sm linea_cantidad" placeholder="Cantidad:" value="1"></td>
+    		<td><input 
+    				onfocus="this.value = '';"
+                    onblur="if(this.value == ''){this.value = '1'}"
+    				type="number" 
+    				class="form-control 
+    				input-sm linea_cantidad" 
+    				placeholder="Cantidad:" 
+    				value="1"></td>
     		<td><input type="text" class="form-control input-sm linea_servicio" placeholder="Servicio:"></td>
-    		<td><input type="text" class="form-control input-sm linea_precio" placeholder="Monto:"></td>
+    		<td><input type="number" class="form-control input-sm linea_precio" placeholder="Monto:"></td>
     	</tr>`;
 
 //función para agregar una linea

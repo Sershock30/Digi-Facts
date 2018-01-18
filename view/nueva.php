@@ -11,7 +11,7 @@
     		<div class="col-md-10" id="Contenido_Factura">
     			<div class="row">
                     <!-- Primera fila de informacion -->
-    				<div class="col-md-4">
+    				<div class="col-md-12">
     					<label for=""><small>Fecha Actual: dd/mm/yyyy</small></label>
     					<input type="text" id="data_fecha" readonly="" class="form-control" placeholder="Fecha">
     				</div>
@@ -20,9 +20,16 @@
     					<label for=""><small>No. Contribuyente</small></label>
     					<input type="text" id="data_contribuyente" readonly="" class="form-control" placeholder="No. Contribuyente">
     				</div>
+                    <div class="col-md-4">
+                        <label for=""><small>Tipo identificación Cliente:</small></label>
+                        <select type="text" id="tipo_identificacion" readonly class="form-control" placeholder="Tipo Identificación:">
+                            <option value="01">Cedula Nacional</option>
+                            <option value="02">Pasaporte</option>
+                        </select>
+                    </div>
                     <!-- Cédula jurídica/física del cliente -->
                     <div class="col-md-4">
-                        <label for=""><small>Ced Cliente</small></label>
+                        <label for=""><small>Identificación Cliente</small></label>
                         <input type="text" id="data_cliente" class="form-control" placeholder="Cedula Cliente:">
                     </div>
                     <!-- Segunda fila de información -->
@@ -35,7 +42,10 @@
                     <!-- NOTA: Incluir Notas de Crédito y Débito -->
                     <div class="col-md-6">
                         <label for=""><small>Tipo Documento</small></label>
-                        <input type="text" id="data_tipo-doc" readonly="" class="form-control" placeholder="Factura">
+                        <select type="text" id="data_tipo-doc" readonly class="form-control" placeholder="Tipo documento:">
+                            <option value="01">Factura</option>
+                            <option value="02">Nota de Crédito</option>
+                        </select>
                     </div>
     			</div>
 
@@ -55,7 +65,13 @@
     				<tbody id="detalles_factura">
     					<tr class="linea_factura">
     						<td>
-                                <input type="number" class="form-control input-sm linea_cantidad" placeholder="Cantidad:" value="1">
+                                <input type="number"
+                                    onfocus="this.value = '';"
+                                    onblur="if(this.value == ''){this.value = '1'}"
+                                    onkeypress="ActualizaPrecios();"
+                                    class="form-control input-sm linea_cantidad" 
+                                    placeholder="Cantidad:" 
+                                    value="1">
                             </td>
     						<td>
                                 <input type="text" class="form-control input-sm linea_servicio" placeholder="Servicio:">
@@ -106,7 +122,15 @@
     					<!-- Monto del impuesto a mostrar -->
     					<tr class="text-right form-horizontal">
     						<td class="col-md-10 col-sm-6 control-label lb_impuesto"><strong>Impuesto </strong></td>
-    						<td class="col-md-2 col-sm-6"><input id="impuesto" class="form-control input-sm text-center" type="number" placeholder="0" value="0"></td>
+    						<td class="col-md-2 col-sm-6">
+                                <input 
+                                onfocus="this.value = '';"
+                                onblur="if(this.value == ''){this.value = '0'}" 
+                                id="impuesto" 
+                                class="form-control input-sm text-center" 
+                                type="number" 
+                                value="0">
+                            </td>
     					</tr>
     					<!-- Despliegue del total de la factura -->
     					<tr class="text-right form-horizontal">
