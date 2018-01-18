@@ -1,7 +1,8 @@
 <?php 
-$consecutivo = 1;
 
 class xmlCreator{
+
+	public $consecutivo = 2;
 
 	// Crear Detalle de Factura
 
@@ -312,7 +313,7 @@ class xmlCreator{
 		for ( $i = 0; $i <  count($detalles); $i++) {
 			for ($j=0; $j <count($detalles[$i]) ; $j++) { 
 
-				print_r($detalles[$i][$j][1]);
+				//print_r($detalles[$i][$j][1]);
 				$linea = $doc->createElement("LineaDetalle");
 				$detalle->appendChild($linea);
 

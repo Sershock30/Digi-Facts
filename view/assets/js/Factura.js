@@ -69,7 +69,7 @@ function ActualizaPrecios(){
 var linea = `<tr class="linea_factura">
     		<td><input 
     				onfocus="this.value = '';"
-                    onblur="if(this.value == ''){this.value = '1'}"
+                    onblur="if(this.value == '' || this.value <= 0){this.value = '1'}"
     				type="number" 
     				class="form-control 
     				input-sm linea_cantidad" 
@@ -132,7 +132,11 @@ function GetFecha(){
 
 //funcion para finalizar la factura
 function FinalizaFactura(){
-
+	var error = {
+		status:false,
+		title:"Datos faltantes",
+		msg:"Debe completar todos las lineas vacias"
+	}
 	//se actualizan los totales antes de ejecutar cualquier paso de la funcion
 	ActualizaPrecios();
 	
@@ -141,7 +145,7 @@ function FinalizaFactura(){
 	var contribuyente = $("#data_contribuyente").val();
 	var cliente = $("#data_cliente").val();
 	var consecutivo = $("#data_consecutivo").val();
-	var tipo_doc = $("").val();
+	var tipo_doc = $("data_tipo-doc").val();
 	var servicio = "";
 	var cant = 0;
 	var monto = 0;
@@ -158,10 +162,17 @@ function FinalizaFactura(){
 	  	cant = 1;
 	  }
 
-	  if (monto == "") {
-	  	monto = 0;
+	  if (servicio == "") {
+	  	error.status = true;
+	  	$(this).children("td").children('.linea_cantidad').first().addClass("has-error");
 	  }
-	  lineas.push([cant, servicio, monto]);
+
+	  if (monto == "") {
+	  	error.status = true;
+	  	$(this).children("td").children('.linea_precio').first().addClass("has-error");
+	  }else{
+	  	lineas.push([cant, servicio, monto]);
+	  }
 
 	});
 
@@ -177,33 +188,38 @@ function FinalizaFactura(){
 	var subtotal = $("").val();
 	var impuesto = $("").val();
 	var total = $("").val();
+	
+	if (!error.status) {
+		//Función AJAX para crear el XML
+		$.ajax({
+			url : "controller/async/async.xmlCreator.php",
+			method : "post",
+			dataType : "json",
+			data: {
+				fecha : fecha,
+				cedula : cliente,
+				detalle : lineas // Por estandar , las variables que contienen elementos del DOM obtenidos con JQuery se representan con un "$" al inicio.
 
-	//aqui iria la funcion AJAX para generar el XML y el PDF que se envian al cliente y a hacienda.
-	// $.post( "RutaDelArchivo/XMLGenerator.php", { datos:datos })
-	// .done(function( response ) {
-	//     console.log( "Respuesta: " + response );
-	// });
+			},
+			success: function(response){
+				console.log(response.clave);
+				console.log(response.fecha);
+				console.log(response.emisor);
+				console.log(response.receptor);
+				console.log(response.comprobanteXml);
+			},
+			error: function(xhr, status, errormsg){
+				console.log(xhr.responseText);
+				console.log(status);
+				console.log(errormsg);
+			}
 
-	// Mi version de la funcion AJAX
-
-	$.ajax({
-		url : "controller/async/async.xmlCreator.php",
-		method : "post",
-		dataType : "json",
-		data: {
-			fecha : fecha,
-			cedula : cliente,
-			detalle : lineas // Por estandar , las variables que contienen elementos del DOM obtenidos con JQuery se representan con un "$" al inicio.
-
-		},
-		success: function(response){
-			console.log(response.clave);
-			console.log(response.fecha);
-			console.log(response.emisor);
-			console.log(response.receptor);
-			console.log(response.comprobanteXml);
-		}
-	});
+		});
+	}else{
+		$("#response_title").text(error.title);
+		$("#response_msg").text(error.msg);
+		$("#myModal").modal("show");
+	}
 
 
 }

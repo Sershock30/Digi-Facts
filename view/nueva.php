@@ -1,6 +1,6 @@
 <section>
 	<!-- contenedor principal de la factura -->
-	<div class="container-fluid NuevaFactura">
+	<div class="container NuevaFactura">
     	<div class="row">
             <!-- bloque de anuncios de google para ad revenue -->
     		<div class="col-md-12 hidden-sm hidden-xs">
@@ -50,65 +50,62 @@
     			</div>
 
                 <!-- Tabla de despliegue de detalles -->
-    			<table class="table table-condensed">
-
-                    <!-- Encabezado de la tabla -->
-    				<thead>
-    					<tr>
-    						<th>Cantidad</th>
-    						<th>Servicio</th>
-    						<th>Precio</th>
-    					</tr>
-    				</thead>
-
-                    <!-- Cuerpo de la tabla, aqui se concatenan los nuevos detalles -->
-    				<tbody id="detalles_factura">
-    					<tr class="linea_factura">
-    						<td>
-                                <input type="number"
-                                    onfocus="this.value = '';"
-                                    onblur="if(this.value == ''){this.value = '1'}"
-                                    class="form-control input-sm linea_cantidad" 
-                                    placeholder="Cantidad:" 
-                                    value="1">
-                            </td>
-    						<td>
-                                <input type="text" class="form-control input-sm linea_servicio" placeholder="Servicio:">
-                            </td>
-    						<td>
-                                <input type="number" class="form-control input-sm linea_precio" placeholder="Monto:">
-                            </td>
-    					</tr>
-    				</tbody>
-
-                    <!-- Pie de la tabla, se incluyen los botones -->
-    				<tfoot>
-    					<tr class="agrega_linea">
-                            <!-- colspan para ajustar la posicion de los botones -->
-    						<td colspan="3">
-                                <!-- Remueve una única linea (la última) -->
-    							<button id="remover_linea" class="btn btn-sm btn-danger" style="display: none;" onclick="RemueveLinea();">
-    								<i class="glyphicon glyphicon-minus"></i> 
-    								Remover Linea
-    							</button>
-                                <!-- Agrega una linea al final -->
-    							<button id="agregar_linea" class="btn btn-sm btn-primary" onclick="AgregaLinea();">
-    								<i class="glyphicon glyphicon-plus"></i> 
-    								Agregar Linea
-    							</button>
-    						</td>
-    					</tr>
-                        <tr class="agrega_linea">
-                            <td colspan="3">
-                                <!-- Actualiza los datos del subtotal y el total -->
-                                <button id="Actualizar" class="btn btn-sm btn-success" onclick="ActualizaPrecios();">
-                                    <i class="glyphicon glyphicon-refresh"></i> 
-                                    Actualizar Totales
-                                </button>
-                            </td>
-                        </tr>
-    				</tfoot>	
-    			</table>
+    			<div class="table-responsive">
+                    <table class="table table-condensed">
+                                        
+                                        <!-- Encabezado de la tabla -->
+                        <thead>
+                            <tr>
+                                <th>Cantidad</th>
+                                <th>Servicio</th>
+                                <th>Precio</th>
+                            </tr>
+                        </thead>
+                    
+                                        <!-- Cuerpo de la tabla, aqui se concatenan los nuevos detalles -->
+                        <tbody id="detalles_factura">
+                            <tr class="linea_factura">
+                                <td>
+                                    <input type="number" onfocus="this.value = '';" onblur="if(this.value == '' || this.value <= 0){this.value = '1'}" class="form-control input-sm linea_cantidad"  placeholder="Cantidad:"  value="1">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control input-sm linea_servicio" placeholder="Servicio:">
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control input-sm linea_precio" placeholder="Monto:">
+                                </td>
+                            </tr>
+                        </tbody>
+                    
+                                        <!-- Pie de la tabla, se incluyen los botones -->
+                        <tfoot>
+                            <tr class="agrega_linea">
+                                                <!-- colspan para ajustar la posicion de los botones -->
+                                <td colspan="3">
+                                                    <!-- Remueve una única linea (la última) -->
+                                    <button id="remover_linea" class="btn btn-sm btn-danger" style="display: none;" onclick="RemueveLinea();">
+                                        <i class="glyphicon glyphicon-minus"></i> 
+                                        Remover Linea
+                                    </button>
+                                                    <!-- Agrega una linea al final -->
+                                    <button id="agregar_linea" class="btn btn-sm btn-primary" onclick="AgregaLinea();">
+                                        <i class="glyphicon glyphicon-plus"></i> 
+                                        Agregar Linea
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="agrega_linea">
+                                <td colspan="3">
+                                    <!-- Actualiza los datos del subtotal y el total -->
+                                    <button id="Actualizar" class="btn btn-sm btn-success" onclick="ActualizaPrecios();">
+                                        <i class="glyphicon glyphicon-refresh"></i> 
+                                        Actualizar Totales
+                                    </button>
+                                </td>
+                            </tr>
+                        </tfoot>    
+                    </table>
+                </div>
 
                 <!-- Segunda tabla para los detalles finales de la factura -->
     			<table class="table borderless">
@@ -174,3 +171,20 @@
 	</div>
 
 </section>
+<!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title" id="response_title"></h4>
+        </div>
+        <div class="modal-body">
+          <p id="response_msg"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>

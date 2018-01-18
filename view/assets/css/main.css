@@ -84,4 +84,8 @@ input:read-only {
     border-color:transparent !important;
 }
 
+.table td{
+    min-width:100px;
+}
+
 /*Fin de estilos para el header y el footer*/
