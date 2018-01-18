@@ -202,6 +202,7 @@ function FinalizaFactura(){
 
 			},
 			success: function(response){
+				//se imprime el resultado en consola
 				console.log(response.clave);
 				console.log(response.fecha);
 				console.log(response.emisor);
@@ -209,6 +210,7 @@ function FinalizaFactura(){
 				console.log(response.comprobanteXml);
 			},
 			error: function(xhr, status, errormsg){
+				//se muestra el error en consola
 				console.log(xhr.responseText);
 				console.log(status);
 				console.log(errormsg);
@@ -216,6 +218,7 @@ function FinalizaFactura(){
 
 		});
 	}else{
+		//se muestra el modal de errores
 		$("#response_title").text(error.title);
 		$("#response_msg").text(error.msg);
 		$("#myModal").modal("show");
