@@ -1,5 +1,14 @@
 <?php 
 	
+	$response = [
+		"StatusHacienda"=>false,
+		"msgHacienda"=>"",
+		"StatusEmailCliente"=>false,
+		"msgEmailCliente"=>"",
+		"customMsg"=>"",
+		"data"=>""
+	];
+
 	require_once "../class/class.xmlCreator.php";
 
 	$xmlCreator = new xmlCreator();
@@ -28,6 +37,31 @@
 		"comprobanteXml"=>$xml_encoded
 	];
 
-	print_r(json_encode($Array));
+	$response['data'] = $Array;
+
+	//Aqui se procede a ejecutar el Envio del Array a Hacienda, seguido de esto, con la respuesta que entregue el API,
+	// se valida si fue correcto o incorrecto.
+
+	include '../../libs/OpenID/apiKey.php';
+	include "../../libs/OpenID/class.OpenId.php";
+
+	//se instancia la clase de libreria OpenID
+	//El host es el servidor que se usara como Gateway
+	// $OpenID = new LightOpenID("localhost");
+
+
+	// if (!$OpenID->mode) {
+	// 	$OpenID->identity = "https://api.comprobanteselectronicos.go.cr/recepcion-sandbox/v1/";
+	// 	$response['StatusHacienda'] = true;
+	// 	$response['msgHacienda'] = "Conexión exitosa al API de Hacienda";
+	// }else if($OpenID->mode == "cancel"){
+	// 	$response['customMsg'] = "Se ha cancelado la operacion.";
+	// }else{
+	// 	$response['msgHacienda'] = "Error al autenticar con el Token"; 
+	// }
+
+	//Se establece el Data del response como la respuesta al servidor
+
+	echo json_encode($response);
 
 ?>
