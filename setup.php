@@ -10,8 +10,7 @@
 if (isset($_POST["host"]) && isset($_POST["db"]) && isset($_POST["user"]) && isset($_POST["pass"]) && isset($_POST["tipoApp"])) {
 	
 
-	$ContentOfFile = '
-	<?php 
+	$ContentOfFile = '<?php 
 	//cuando se actualizan los datos de este archivo por medio de la interfaz,
 	//se eliminan todos los cambios.
 	class Conexion{
