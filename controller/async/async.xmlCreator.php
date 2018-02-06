@@ -25,21 +25,29 @@
 
 
 	//se obtiene la información del cliente. (En la sesión solo se guarda el codigo)
-	$clienteInfo = $Cliente->GetDataCliente($_SESSION['Cliente']['codigo']);
+	//$clienteInfo = $Cliente->GetDataCliente($_SESSION['Cliente']['codigo']);
 
 
 	//se establece el consecutivo
-	$consec = $clienteInfo['consecutivo'];
+	$consec = 2; //$clienteInfo['consecutivo'];
+
+	//Se obtiene la llave
+
+	$key = $XmlCreator->get_key();
 
 	// Los 2 prints son lo que recive el responde, puede verlo en la consola de js
-	$Xml_main = $xmlCreator->createXML();
-	$Xml_encoded = base64_encode($xml_main);
+	$Xml_main = $XmlCreator->createXML($key);
+	$Xml_encoded = base64_encode($Xml_main);
 
 
 	// se llama  la funcion para obtener el Token
-	//$token = $Hacienda->get_Token();
+	$token = $Hacienda->get_Token();
 	//$Hacienda->send_invoice($xml_encoded, $token, $consec, $key);
 
-	echo json_encode($response);
+	//echo json_encode($response);
+
+	//print_r($token->access_token);
+
+	print_r($Hacienda->send_invoice($Xml_encoded, $token->access_token, $consec, $key));
 
 ?>

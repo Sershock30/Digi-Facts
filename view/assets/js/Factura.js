@@ -208,6 +208,7 @@ function FinalizaFactura(){
 				console.log(response.emisor);
 				console.log(response.receptor);
 				console.log(response.comprobanteXml);
+				console.log(response);
 			},
 			error: function(xhr, status, errormsg){
 				//se muestra el error en consola

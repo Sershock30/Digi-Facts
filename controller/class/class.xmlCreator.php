@@ -29,6 +29,10 @@ class xmlCreator{
 		return $country_code.$day.$month.$year.$cedula.$this->numeracionComercial().$estado.$codigo_seguridad;
 	}
 
+	public function get_key(){
+		return self::crearClave();
+	}
+
 	private function emisorInfo($doc,$root){ // Funcion para colocar los datos del Emisor
 		// Nodos de Informacion
 		// Nodo Raiz
@@ -410,7 +414,7 @@ class xmlCreator{
 		}
 	}
 
-	public function createXML(){ // Funcion para crear el documento XML y sus nodos
+	public function createXML($key){ // Funcion para crear el documento XML y sus nodos
 
 		global $consecutivo;
 
@@ -428,7 +432,7 @@ class xmlCreator{
 		//
 		// Nodos primarios
 
-		$clave = $xml_doc->createElement("Clave", $this->crearClave());
+		$clave = $xml_doc->createElement("Clave", $key);
 		$facutura_elec->appendChild($clave);
 		//
 		$num_consecutivo = $xml_doc->createElement("NumeroConsecutivo",$consecutivo);
