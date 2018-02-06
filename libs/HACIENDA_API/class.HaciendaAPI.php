@@ -7,9 +7,9 @@ class HaciendaAPI{
         $data = array('client_id' => 'api-stag',//Test: 'api-stag' Production: 'api-prod'
                       'client_secret' => '',//always empty
                       'grant_type' => 'password', //always 'password'
-                      //go to https://www.hacienda.go.cr/ATV/login.aspx to generate a username and password credentials
-                      'username' => 'ATV user', 
-                      'password' => 'ATV pass', 
+                      // Credenciales de prueba para certificado HAcienda.
+                      'username' => 'cpf-01-1661-0374@stag.comprobanteselectronicos.go.cr', 
+                      'password' => 'D@#WZTA]F:2&=^}28@!Z', 
                       'scope' =>'');//always empty
         // use key 'http' even if you send the request to https://...
         $options = array(
