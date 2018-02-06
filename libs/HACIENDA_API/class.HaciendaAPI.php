@@ -2,6 +2,7 @@
 
 class HaciendaAPI{
 
+
     public function get_Token(){
         $url = 'https://idp.comprobanteselectronicos.go.cr/auth/realms/rut-stag/protocol/openid-connect/token';//access token url
         $data = array('client_id' => 'api-stag',//Test: 'api-stag' Production: 'api-prod'
@@ -27,13 +28,13 @@ class HaciendaAPI{
     }
 
     //send invoice xml to Hacienda API
-    public function send_invoice($xml, $token, $consec) {
+    public function send_invoice($xml, $token, $consec, $llave) {
 
         //aqui vamos a accesar a la BD y obtener el consecutivo del usuario
         $consecutive = $consec;
 
         //aqui vamos a generar la llave del documento
-        $key = $this->generate_key($consecutive); //key invoice number
+        $key = $llave; //key invoice number
 
         //aqui se cambia el invoice por el XML Generado por el class.xmlCreator.php
         $invoice = $xml;//create a xml string
@@ -54,8 +55,8 @@ class HaciendaAPI{
           CURLOPT_CUSTOMREQUEST => "POST",
           CURLOPT_POSTFIELDS => "{\n\t\"clave\": \"$key\","
             . "\n\t\"fecha\": \"2017-10-03T00:00:00-0600\","
-            . "\n\t\"emisor\": {\n\t\t\"tipoIdentificacion\": \"02\",\n\t\t\"numeroIdentificacion\": \"3101123456\"\n\t},"
-            . "\n\t\"receptor\": {\n\t\t\"tipoIdentificacion\": \"02\",\n\t\t\"numeroIdentificacion\": \"3101123456\"\n\t},"
+            . "\n\t\"emisor\": {\n\t\t\"tipoIdentificacion\": \"02\",\n\t\t\"numeroIdentificacion\": \"116610374\"\n\t},"
+            . "\n\t\"receptor\": {\n\t\t\"tipoIdentificacion\": \"02\",\n\t\t\"numeroIdentificacion\": \"116610374\"\n\t},"
             . "\n\t\"callbackUrl\": \"https://example.com/invoiceView\","
             . "\n\t\"comprobanteXml\": \"$invoice\"\n}",
           CURLOPT_COOKIE => "__cfduid=d73675273d6c68621736ad9329b7eff011507562303",

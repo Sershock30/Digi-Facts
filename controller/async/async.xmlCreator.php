@@ -10,49 +10,35 @@
 	];
 
 	require_once "../class/class.xmlCreator.php";
+	require_once '../../libs/HACIENDA_API/class.HaciendaAPI.php';
+	require_once '../../module/class.conexion.php';
+	require_once '../../module/class.metodos.php';
+	require_once '../../module/class/class.Cliente.php';
 
-	$xmlCreator = new xmlCreator();
+
+	//se instancia el objeto de xmlCreator
+	$XmlCreator = new xmlCreator();
+	//Se instancia el objeto de HACIENDA_API
+	$Hacienda = new HaciendaAPI();
+	//Se instancia el objeto de Cliente
+	$Cliente = new Cliente();
+
+
+	//se obtiene la información del cliente. (En la sesión solo se guarda el codigo)
+	$clienteInfo = $Cliente->GetDataCliente($_SESSION['Cliente']['codigo']);
+
+
+	//se establece el consecutivo
+	$consec = $clienteInfo['consecutivo'];
 
 	// Los 2 prints son lo que recive el responde, puede verlo en la consola de js
-	$xml_main = $xmlCreator->createXML();
-	$xml_encoded = base64_encode($xml_main);
+	$Xml_main = $xmlCreator->createXML();
+	$Xml_encoded = base64_encode($xml_main);
 
-
-	// $Array = [
-	// 	"clave"=>"50617011800100001010000000001156451223",
-	// 	"fecha"=>"2018-01-01T00:00:00-0600",
-	// 	"emisor"=>[
-	// 		"tipoIdentificacion"=>"02",
-	// 		"numeroIdentificacion"=>"116610374"
-	// 	],
-	// 	"receptor"=>[
-	// 		"tipoIdentificacion"=>"02",
-	// 		"numeroIdentificacion"=>"116610374"
-	// 	],
-	// 	"comprobanteXml"=>$xml_encoded
-	// ];
-
-	// $response['data'] = $Array;
-
-	//Aqui se procede a ejecutar el Envio del Array a Hacienda, seguido de esto, con la respuesta que entregue el API,
-	// se valida si fue correcto o incorrecto.
-	include '../../libs/HACIENDA_API/class.HaciendaAPI.php';
-
-	//require_once '../../module/class.conexion.php';
-	//require_once '../../module/class.metodos.php';
-
-	//Se instancia el objeto de HACIENDA_API
-	//Se instancia la clase de metodos
-	//$M = new Metodos();
-
-	//desde metodos se obtiene el consecutivo del usuario que inició sesion.
-
-	$hacienda = new HaciendaAPI();
 
 	// se llama  la funcion para obtener el Token
-	
-	//$token = $hacienda->get_Token();
-	//$hacienda->send_invoice($xml_encoded, $token, $consec);
+	//$token = $Hacienda->get_Token();
+	//$Hacienda->send_invoice($xml_encoded, $token, $consec, $key);
 
 	echo json_encode($response);
 

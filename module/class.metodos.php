@@ -23,6 +23,11 @@ class Metodos{
 		return $con;
 	}
 
+	//Salt para las claves
+	public function getSalt(){
+		return "KL37$!ZT";
+	}
+
 	//funcion generica para cargar una serie de datos
 	public function CargaArray($sql, $array){
 		//se instancia el arreglo y la conexion

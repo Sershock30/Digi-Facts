@@ -6,7 +6,7 @@ class xmlCreator{
 
 	// Crear Detalle de Factura
 
-	function numeracionComercial(){
+	private function numeracionComercial(){
 
 		$num_sucursal = "001";
 		$punto_venta = "00001";
@@ -17,7 +17,7 @@ class xmlCreator{
 
 	}
 
-	function crearClave(){
+	private function crearClave(){
 		$country_code = 506;
 		$day = date("d");
 		$month = date("m");
@@ -29,7 +29,7 @@ class xmlCreator{
 		return $country_code.$day.$month.$year.$cedula.$this->numeracionComercial().$estado.$codigo_seguridad;
 	}
 
-	function emisorInfo($doc,$root){ // Funcion para colocar los datos del Emisor
+	private function emisorInfo($doc,$root){ // Funcion para colocar los datos del Emisor
 		// Nodos de Informacion
 		// Nodo Raiz
 		$emisor = $doc->createElement("Emisor");
@@ -106,7 +106,7 @@ class xmlCreator{
 
 	}
 
-	function receptorInfo($doc,$root){ // Funcion para colocar los datos del Emisor
+	private function receptorInfo($doc,$root){ // Funcion para colocar los datos del Emisor
 		// Nodos de Informacion
 		// Nodo Raiz
 		$receptor = $doc->createElement("Receptor");
@@ -187,7 +187,7 @@ class xmlCreator{
 
 	}
 
-	function infoVenta($doc,$root){
+	private function infoVenta($doc,$root){
 
 		global $consecutivo;
 
@@ -205,7 +205,7 @@ class xmlCreator{
 
 	}
 
-	function resumenFactura($doc,$root){
+	private function resumenFactura($doc,$root){
 
 		$resumen_fac = $doc->createElement("ResumenFactura");
 		$root->appendChild($resumen_fac);
@@ -251,7 +251,7 @@ class xmlCreator{
 
 	}
 
-	function infoReferencia($doc,$root){
+	private function infoReferencia($doc,$root){
 
 		$info_ref = $doc->createElement("InformacionReferencia");
 		$root->appendChild($info_ref);
@@ -273,7 +273,7 @@ class xmlCreator{
 
 	}
 
-	function normativa($doc,$root){
+	private function normativa($doc,$root){
 
 		$normativa = $doc->createElement("Normativa");
 		$root->appendChild($normativa);
@@ -286,7 +286,7 @@ class xmlCreator{
 
 	}
 
-	function otros($doc,$root){
+	private function otros($doc,$root){
 		
 		$otros = $doc->createElement("Otros");
 		$root->appendChild($otros);
@@ -299,7 +299,7 @@ class xmlCreator{
 
 	}
 
-	function detalleFactura($doc,$root,$detalles){
+	private function detalleFactura($doc,$root,$detalles){
 
 		$detalle = $doc->createElement("DetalleFactura");
 		$root->appendChild($detalle);
@@ -410,7 +410,7 @@ class xmlCreator{
 		}
 	}
 
-	function createXML(){ // Funcion para crear el documento XML y sus nodos
+	public function createXML(){ // Funcion para crear el documento XML y sus nodos
 
 		global $consecutivo;
 
@@ -462,17 +462,6 @@ class xmlCreator{
 		$this->normativa($xml_doc,$facutura_elec);
 
 		$this->otros($xml_doc,$facutura_elec);
-
-		// Seccion de Cifrado
-
-		//$xml_full = $xml_doc->saveXML();
-
-		// $encryp = base64_encode($xml_full);
-
-		// $cifrado = $xml_doc->createElement("ContenidoXML",$encryp);
-		// $facutura_elec->appendChild($cifrado);
-
-		// Fin Seccion Cifrado
 
 		return $xml_doc->saveXML();
 
