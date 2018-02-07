@@ -129,6 +129,15 @@ class HaciendaAPI{
           'Content-Type: application/json'
         );
 
+        $datos = array(
+          'offset' => $Offset,
+          'limit' => $Limit,
+          'emisor' => $Emisor,
+          'receptor' => $Receptor
+        );
+
+        $mensaje = json_encode($datos);
+
         $curl = curl_init("https://api.comprobanteselectronicos.go.cr/recepcion-sandbox/v1/comprobantes/");
         curl_setopt($curl, CURLOPT_HEADER, true);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
