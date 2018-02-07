@@ -30,7 +30,7 @@ class xmlCreator{
 	}
 
 	public function get_key(){
-		return self::crearClave();
+		return $this->crearClave();
 	}
 
 	private function emisorInfo($doc,$root){ // Funcion para colocar los datos del Emisor
@@ -46,10 +46,10 @@ class xmlCreator{
 		$identificacion = $doc->createElement("Identificacion");
 		$emisor->appendChild($identificacion);
 
-		$tipo_id = $doc->createElement("Tipo",01);
+		$tipo_id = $doc->createElement("Tipo",02);
 		$identificacion->appendChild($tipo_id);
 
-		$num_identi = $doc->createElement("Numero",123567841);
+		$num_identi = $doc->createElement("Numero",116610374);
 		$identificacion->appendChild($num_identi);
 
 		// Fin Seccion Identificacion

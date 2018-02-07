@@ -27,6 +27,7 @@ class HaciendaAPI{
         return $token; //return a json object whith token and refresh token
     }
 
+
     //send invoice xml to Hacienda API
     public function send_invoice($xml, $token, $consec, $llave) {
 
@@ -43,40 +44,108 @@ class HaciendaAPI{
         $authToken = $token;//get OAuth2.0 token
 
 
-        $curl = curl_init();
 
-        curl_setopt_array($curl, array(
-          CURLOPT_URL => "https://api.comprobanteselectronicos.go.cr/recepcion-sandbox/v1/recepcion",
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_ENCODING => "",
-          CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 30,
-          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-          CURLOPT_CUSTOMREQUEST => "POST",
-          CURLOPT_POSTFIELDS => "{\n\t\"clave\": \"$key\","
-            . "\n\t\"fecha\": \"2017-10-03T00:00:00-0600\","
-            . "\n\t\"emisor\": {\n\t\t\"tipoIdentificacion\": \"02\",\n\t\t\"numeroIdentificacion\": \"116610374\"\n\t},"
-            . "\n\t\"receptor\": {\n\t\t\"tipoIdentificacion\": \"02\",\n\t\t\"numeroIdentificacion\": \"116610374\"\n\t},"
-            . "\n\t\"callbackUrl\": \"https://example.com/invoiceView\","
-            . "\n\t\"comprobanteXml\": \"$invoice\"\n}",
-          CURLOPT_COOKIE => "__cfduid=d73675273d6c68621736ad9329b7eff011507562303",
-          CURLOPT_HTTPHEADER => array(
-            "authorization: Bearer ".$authToken ,
-            "content-type: application/json"
+        $datos = array(
+          'clave' => "51111011600310112345600100010100000000011999999997",
+          'fecha' => "2018-02-06T00:00:00-0600",
+          'emisor' => array(
+            'tipoIdentificacion' => "02",
+            'numeroIdentificacion' => "116610374"
           ),
-        ));
+          'receptor' => array(
+            'tipoIdentificacion' => "02",
+            'numeroIdentificacion' => "116610374"
+          ),
+          'comprobanteXml' => $xml
+        );
+
+        $mensaje = json_encode($datos);
+
+        $header = array(
+          'Authorization: bearer '.$token,
+          'Content-Type: application/json'
+        );
+
+        $curl = curl_init("https://api.comprobanteselectronicos.go.cr/recepcion-sandbox/v1/recepcion");
+        curl_setopt($curl, CURLOPT_HEADER, true);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $mensaje);
     
         $data = curl_exec($curl);
         $err = curl_error($curl);
         curl_close($curl);
 
         if ($err) {
-          //echo "cURL Error #:" . $err;
+          echo "cURL Error #:" . $err;
           return "Error";
         } else {
-
           //se le cambia el nombre a data para no tener errores con el response de AJAX
-          return json_decode($data);
+          return $data;
+        }
+    }
+
+    //Función para validar el estado de un documento
+    //requirede del Token y de la llave única generada para el documento.
+    public function get_invoice_info($token, $llave){
+        $header = array(
+          'Authorization: bearer '.$token,
+          'Content-Type: application/json'
+        );
+
+        $curl = curl_init("https://api.comprobanteselectronicos.go.cr/recepcion-sandbox/v1/recepcion/".$llave);
+        curl_setopt($curl, CURLOPT_HEADER, true);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
+
+        $data = curl_exec($curl);
+        $err = curl_error($curl);
+        curl_close($curl);
+
+        if ($err) {
+          echo "cURL Error #:" . $err;
+          return "Error";
+        } else {
+          //se le cambia el nombre a data para no tener errores con el response de AJAX
+          return $data;
+        }
+
+    }
+
+
+    //variables a enviar para el offset y el limite
+    // Offset INT = 0 DEFAULT
+    // LIMIT INT = 50 DEFAULT
+    // Emisor string MAX_LENGTH = 14 -> tipo identificacion + identificacion 
+    // Ejemplo emisor ==  Tipo = 02 Identificacion = 116610374 -> 02116610374
+    // Receptor string MAX_LENGTH = 14 -> tipo identificacion + identificacion 
+    // Ejemplo receptor ==  Tipo = 02 Identificacion = 116610374 -> 02116610374
+    public function get_invoice_list($token, $Offset = 0, $Limit = 50, $Emisor, $Receptor){
+
+        $header = array(
+          'Authorization: bearer '.$token,
+          'Content-Type: application/json'
+        );
+
+        $curl = curl_init("https://api.comprobanteselectronicos.go.cr/recepcion-sandbox/v1/comprobantes/");
+        curl_setopt($curl, CURLOPT_HEADER, true);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $mensaje);
+
+        $data = curl_exec($curl);
+        $err = curl_error($curl);
+        curl_close($curl);
+
+        if ($err) {
+          echo "cURL Error #:" . $err;
+          return "Error";
+        } else {
+          //se le cambia el nombre a data para no tener errores con el response de AJAX
+          return $data;
         }
     }
 

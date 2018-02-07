@@ -3,7 +3,7 @@
 session_start();
 //se inicia la sesion
 
-if (file_exists("config_files/stpphp")) {
+if (file_exists("config_files/stpi.php")) {
 	header("location:setup.php");
 }
 

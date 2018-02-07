@@ -1,4 +1,4 @@
-<?php include "controller/functions/PrintMenu.php"; ?>
+<?php include "controller/functions/printMenu.php"; ?>
 <!DOCTYPE html>
 <html lang="<?php echo $Lang ?>">
 <head>

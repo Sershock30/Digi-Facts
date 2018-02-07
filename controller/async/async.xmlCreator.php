@@ -46,8 +46,14 @@
 
 	//echo json_encode($response);
 
-	//print_r($token->access_token);
-
-	print_r($Hacienda->send_invoice($Xml_encoded, $token->access_token, $consec, $key));
+	// echo "<h1>Token de acceso</h1>";
+	// print_r($token->access_token);
+	// echo "<hr>";
+	// echo "<h1>Version de CURL</h1>";
+	// echo function_exists('curl_version');
+	// echo "<hr>";
+	// echo "<h1>Respuesta del servidor de hacienda</h1>";
+	echo $Hacienda->send_invoice($Xml_encoded, $token->access_token, $consec, $key);
+	//echo $Hacienda->get_invoice_info($token->access_token,"50601011600310112345600100010100000000011999999999");
 
 ?>
