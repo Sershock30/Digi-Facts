@@ -11,7 +11,7 @@ class xmlCreator{
 		$num_sucursal = "001";
 		$punto_venta = "00001";
 		$tipo_documento = "01";
-		$numeracion_comprobante = "0000000001";
+		$numeracion_comprobante = "0000000002";
 
 		return $num_sucursal.$punto_venta.$tipo_documento.$numeracion_comprobante;
 
@@ -22,7 +22,7 @@ class xmlCreator{
 		$day = date("d");
 		$month = date("m");
 		$year = date("y");
-		$cedula = $_POST["cedula"];
+		$cedula = "116170920123";
 		$codigo_seguridad = 56451223; // Lo puse aleatorio, segun el video debe ser colocado por nosotros o el cliente.
 		$estado = 1;
 
@@ -46,10 +46,10 @@ class xmlCreator{
 		$identificacion = $doc->createElement("Identificacion");
 		$emisor->appendChild($identificacion);
 
-		$tipo_id = $doc->createElement("Tipo",02);
+		$tipo_id = $doc->createElement("Tipo","02");
 		$identificacion->appendChild($tipo_id);
 
-		$num_identi = $doc->createElement("Numero",116610374);
+		$num_identi = $doc->createElement("Numero","116610374");
 		$identificacion->appendChild($num_identi);
 
 		// Fin Seccion Identificacion
@@ -85,7 +85,7 @@ class xmlCreator{
 		$cod_pais = $doc->createElement("CodPais",506);
 		$Telefono->appendChild($cod_pais);
 
-		$num_tel = $doc->createElement("NumTelefono","Goicoechea");
+		$num_tel = $doc->createElement("NumTelefono",22943402);
 		$Telefono->appendChild($num_tel);
 
 
@@ -123,10 +123,10 @@ class xmlCreator{
 		$identificacion = $doc->createElement("Identificacion");
 		$receptor->appendChild($identificacion);
 
-		$tipo_id = $doc->createElement("Tipo",01);
+		$tipo_id = $doc->createElement("Tipo","01");
 		$identificacion->appendChild($tipo_id);
 
-		$num_identi = $doc->createElement("Numero",123567841);
+		$num_identi = $doc->createElement("Numero","123567841");
 		$identificacion->appendChild($num_identi);
 
 		// Fin Seccion Identificacion
@@ -166,7 +166,7 @@ class xmlCreator{
 		$cod_pais = $doc->createElement("CodPais",506);
 		$Telefono->appendChild($cod_pais);
 
-		$num_tel = $doc->createElement("NumTelefono","Goicoechea");
+		$num_tel = $doc->createElement("NumTelefono",22943402);
 		$Telefono->appendChild($num_tel);
 
 
@@ -179,7 +179,7 @@ class xmlCreator{
 		$cod_pais = $doc->createElement("CodPais",506);
 		$fax->appendChild($cod_pais);
 
-		$num_tel = $doc->createElement("NumTelefono","Goicoechea");
+		$num_tel = $doc->createElement("NumTelefono",22943402);
 		$fax->appendChild($num_tel);
 
 
@@ -195,13 +195,13 @@ class xmlCreator{
 
 		global $consecutivo;
 
-		$condi_venta = $doc->createElement("CondicionVenta",01);
+		$condi_venta = $doc->createElement("CondicionVenta","01");
 		$root->appendChild($condi_venta);
 
 		$plazo_credito = $doc->createElement("PlazoCredito","30 Dias");
 		$root->appendChild($plazo_credito);
 
-		$medio_pago = $doc->createElement("MedioPago",01);
+		$medio_pago = $doc->createElement("MedioPago","01");
 		$root->appendChild($medio_pago);
 
 		$num_consecutivo = $doc->createElement("NumeroConsecutivo",$consecutivo);
@@ -387,7 +387,7 @@ class xmlCreator{
 				$exoneracion = $doc->createElement("Exoneracion",654);
 				$impuesto->appendChild($exoneracion);
 
-				$tipo_doc = $doc->createElement("TipoDocumento",01);
+				$tipo_doc = $doc->createElement("TipoDocumento","01");
 				$exoneracion->appendChild($tipo_doc);
 
 				$num_doc = $doc->createElement("NumeroDocumento",1);
@@ -430,7 +430,7 @@ class xmlCreator{
 		$xml_doc->appendChild($facutura_elec);
 
 		//
-		// Nodos primarios
+		// Nodos Obligatorios
 
 		$clave = $xml_doc->createElement("Clave", $key);
 		$facutura_elec->appendChild($clave);
@@ -441,16 +441,9 @@ class xmlCreator{
 		$fecha_emision = $xml_doc->createElement("FechaEmision",date("d-m-y H:i:s"));
 		$facutura_elec->appendChild($fecha_emision);
 
-		// Fin Nodos Primarios
-
-		//Nodos Sedundarios
-
 		$this->emisorInfo($xml_doc,$facutura_elec);
+
 		$this->receptorInfo($xml_doc,$facutura_elec);
-
-		//Fin Nodos Secundarios
-
-		// Nodos de Informacion de Ventas
 
 		$this->infoVenta($xml_doc,$facutura_elec);
 

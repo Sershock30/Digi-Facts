@@ -46,7 +46,7 @@ class HaciendaAPI{
 
 
         $datos = array(
-          'clave' => "51111011600310112345600100010100000000011999999997",
+          'clave' => $key,
           'fecha' => "2018-02-06T00:00:00-0600",
           'emisor' => array(
             'tipoIdentificacion' => "02",
