@@ -52,8 +52,14 @@
 	// echo "<h1>Version de CURL</h1>";
 	// echo function_exists('curl_version');
 	// echo "<hr>";
+<<<<<<< HEAD
 	// echo "<h1>Respuesta del servidor de hacienda</h1>";
 	//echo $Hacienda->send_invoice($Xml_encoded, $token->access_token, $consec, $key);
 	echo $Hacienda->get_invoice_info($token->access_token,"50601011600310112345600100010100000000011999999999");
+=======
+	// echo "<h1>Respuesta del servidor de hacienda</h1>";	
+	echo $Hacienda->send_invoice($Xml_encoded, $token->access_token, $consec, $key);
+	//echo $Hacienda->get_invoice_info($token->access_token,"50607021811617092012300100001010000000002156451223");
+>>>>>>> d1adc9af410e37a959f5385b54505a907a5a606b
 
 ?>
