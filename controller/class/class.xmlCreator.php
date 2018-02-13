@@ -11,7 +11,7 @@ class xmlCreator{
 		$num_sucursal = "001";
 		$punto_venta = "00001";
 		$tipo_documento = "01";
-		$numeracion_comprobante = "0000000002";
+		$numeracion_comprobante = "0000000003";
 
 		return $num_sucursal.$punto_venta.$tipo_documento.$numeracion_comprobante;
 
@@ -53,24 +53,25 @@ class xmlCreator{
 		$identificacion->appendChild($num_identi);
 
 		// Fin Seccion Identificacion
-		$nom_comer = $doc->createElement("NombreComercial","SCM");
-		$emisor->appendChild($nom_comer);
+		//$nom_comer = $doc->createElement("NombreComercial","SCM");
+		//$emisor->appendChild($nom_comer);
 		//Seccion ramificada de Ubicacion
 
 		$ubicacion = $doc->createElement("Ubicacion");
 		$emisor->appendChild($ubicacion);
 
-		$Provincia = $doc->createElement("Provincia","San José");
+		$Provincia = $doc->createElement("Provincia",1); // Estos numeros son dados por hacienda para provincia , cantos y distrito, barrio no es obligatorio
+														// https://tribunet.hacienda.go.cr/docs/esquemas/2016/v4.1/Codificacion,canton,provincia,distritoybarrio.pdf
 		$ubicacion->appendChild($Provincia);
 
-		$Canton = $doc->createElement("Canton","Goicoechea");
+		$Canton = $doc->createElement("Canton",8);
 		$ubicacion->appendChild($Canton);
 
-		$Distrito = $doc->createElement("Distrito","El Carmen");
+		$Distrito = $doc->createElement("Distrito",5);
 		$ubicacion->appendChild($Distrito);
 
-		$Barrio = $doc->createElement("Barrio","Mata Platano");
-		$ubicacion->appendChild($Barrio);
+		//$Barrio = $doc->createElement("Barrio","Mata Platano");
+		//$ubicacion->appendChild($Barrio);
 
 		$otras = $doc->createElement("OtrasSenas","Casa Roja");
 		$ubicacion->appendChild($otras);
@@ -79,27 +80,27 @@ class xmlCreator{
 
 		//Seccion Telefono
 
-		$Telefono = $doc->createElement("Telefono");
+		/*$Telefono = $doc->createElement("Telefono");
 		$emisor->appendChild($Telefono);
 
 		$cod_pais = $doc->createElement("CodPais",506);
 		$Telefono->appendChild($cod_pais);
 
 		$num_tel = $doc->createElement("NumTelefono",22943402);
-		$Telefono->appendChild($num_tel);
+		$Telefono->appendChild($num_tel);*/
 
 
 		// Fin Seccion Telefono
 		//Seccion Fax
 
-		$fax = $doc->createElement("Fax");
+		/*$fax = $doc->createElement("Fax");
 		$emisor->appendChild($fax);
 
 		$cod_pais = $doc->createElement("CodPais",506);
 		$fax->appendChild($cod_pais);
 
 		$num_tel = $doc->createElement("NumTelefono","Goicoechea");
-		$fax->appendChild($num_tel);
+		$fax->appendChild($num_tel);*/
 
 
 		// Fin Seccion Fax
@@ -198,14 +199,14 @@ class xmlCreator{
 		$condi_venta = $doc->createElement("CondicionVenta","01");
 		$root->appendChild($condi_venta);
 
-		$plazo_credito = $doc->createElement("PlazoCredito","30 Dias");
-		$root->appendChild($plazo_credito);
+		//$plazo_credito = $doc->createElement("PlazoCredito","30 Dias");
+		//$root->appendChild($plazo_credito);
 
 		$medio_pago = $doc->createElement("MedioPago","01");
 		$root->appendChild($medio_pago);
 
-		$num_consecutivo = $doc->createElement("NumeroConsecutivo",$consecutivo);
-		$root->appendChild($num_consecutivo);		
+		/*$num_consecutivo = $doc->createElement("NumeroConsecutivo",$consecutivo);
+		$root->appendChild($num_consecutivo);*/		
 
 	}
 
@@ -214,7 +215,7 @@ class xmlCreator{
 		$resumen_fac = $doc->createElement("ResumenFactura");
 		$root->appendChild($resumen_fac);
 
-		$cod_moneda = $doc->createElement("CodigoMoneda","CRC");
+		/*$cod_moneda = $doc->createElement("CodigoMoneda","CRC");
 		$resumen_fac->appendChild($cod_moneda);
 
 		$medio_pago = $doc->createElement("TipoCambio",571);
@@ -236,19 +237,19 @@ class xmlCreator{
 		$resumen_fac->appendChild($total_gravado);
 
 		$total_Exento = $doc->createElement("TotalExento",562);
-		$resumen_fac->appendChild($total_Exento);
+		$resumen_fac->appendChild($total_Exento);*/
 
 		$total_venta = $doc->createElement("TotalVenta",562);
 		$resumen_fac->appendChild($total_venta);
 
-		$total_descuentos = $doc->createElement("TotalDescuentos",562);
-		$resumen_fac->appendChild($total_descuentos);
+		//$total_descuentos = $doc->createElement("TotalDescuentos",562);
+		//$resumen_fac->appendChild($total_descuentos);
 
 		$total_venta_neta = $doc->createElement("TotalVentaNeta",562);
 		$resumen_fac->appendChild($total_venta_neta);
 
-		$total_impuesto = $doc->createElement("TotalImpuesto",562);
-		$resumen_fac->appendChild($total_impuesto);
+		//$total_impuesto = $doc->createElement("TotalImpuesto",562);
+		//$resumen_fac->appendChild($total_impuesto);
 
 		$total_comprobante = $doc->createElement("TotalComprobante",562);
 		$resumen_fac->appendChild($total_comprobante);
@@ -282,7 +283,7 @@ class xmlCreator{
 		$normativa = $doc->createElement("Normativa");
 		$root->appendChild($normativa);
 
-		$num_resolucion = $doc->createElement("NumeroResolucion",01);
+		$num_resolucion = $doc->createElement("NumeroResolucion","DGT-R-48-2016");
 		$normativa->appendChild($num_resolucion);
 
 		$fecha_resolucion = $doc->createElement("FechaResolucion",date("d-m-y"));
@@ -328,7 +329,7 @@ class xmlCreator{
 				$codigo = $doc->createElement("Codigo");
 				$linea->appendChild($codigo);
 
-				$tipo_cod = $doc->createElement("Tipo",01);
+				$tipo_cod = $doc->createElement("Tipo","01");
 				$codigo->appendChild($tipo_cod);
 
 				$cod = $doc->createElement("Codigo","FA01");
@@ -342,8 +343,8 @@ class xmlCreator{
 				$uni_medida = $doc->createElement("UnidadMedida","GR");
 				$linea->appendChild($uni_medida);
 
-				$uni_comer_medida = $doc->createElement("UnidadComercialMedida","GR");
-				$linea->appendChild($uni_comer_medida);
+				/*$uni_comer_medida = $doc->createElement("UnidadComercialMedida","GR");
+				$linea->appendChild($uni_comer_medida);*/
 
 				$detalle = $doc->createElement("Detalle","Venta");
 				$linea->appendChild($detalle);
@@ -361,18 +362,18 @@ class xmlCreator{
 				$monto_total = $doc->createElement("MontoTotal",$monto_final);
 				$linea->appendChild($monto_total);
 
-				$monto_desc = $doc->createElement("MontoDescuento",$descuento);
+				/*$monto_desc = $doc->createElement("MontoDescuento",$descuento);
 				$linea->appendChild($monto_desc);
 
 				$naturaleza_desc = $doc->createElement("NaturalezaDescuento","Error");
-				$linea->appendChild($naturaleza_desc);
+				$linea->appendChild($naturaleza_desc);*/
 
 				$sub_total = $doc->createElement("SubTotal",$subtotal);
 				$linea->appendChild($sub_total);
 
 				// Seccion Impuesto
 
-				$impuesto = $doc->createElement("Impuesto");
+				/*$impuesto = $doc->createElement("Impuesto");
 				$linea->appendChild($impuesto);
 
 				$codigo_impuesto = $doc->createElement("Codigo",654);
@@ -403,7 +404,7 @@ class xmlCreator{
 				$exoneracion->appendChild($monto_impuesto);
 
 				$por_venta = $doc->createElement("PorcentajeVenta",0.13);
-				$exoneracion->appendChild($por_venta);
+				$exoneracion->appendChild($por_venta);*/
 
 
 				// Fin Seccion Impuesto
@@ -417,6 +418,7 @@ class xmlCreator{
 	public function createXML($key){ // Funcion para crear el documento XML y sus nodos
 
 		global $consecutivo;
+
 
 		// Estructura basica de la creacion del XML
 		$xml_doc = new DOMDocument("1.0","utf-8");
@@ -438,28 +440,20 @@ class xmlCreator{
 		$num_consecutivo = $xml_doc->createElement("NumeroConsecutivo",$consecutivo);
 		$facutura_elec->appendChild($num_consecutivo);
 		//
-		$fecha_emision = $xml_doc->createElement("FechaEmision",date("d-m-y H:i:s"));
+		$fecha_emision = $xml_doc->createElement("FechaEmision",date(DATE_ATOM));
 		$facutura_elec->appendChild($fecha_emision);
 
 		$this->emisorInfo($xml_doc,$facutura_elec);
 
-		$this->receptorInfo($xml_doc,$facutura_elec);
-
-		$this->infoVenta($xml_doc,$facutura_elec);
+		//$this->receptorInfo($xml_doc,$facutura_elec);
 
 		// Fin Nodo de Informacion de Ventas
 		$this->infoVenta($xml_doc,$facutura_elec);
 		$this->detalleFactura($xml_doc,$facutura_elec, array($_POST["detalle"]));
 		// Nodos de Resumen de Factura
 		$this->resumenFactura($xml_doc,$facutura_elec);
-		//
-
-		$this->infoReferencia($xml_doc,$facutura_elec);
-
 		$this->normativa($xml_doc,$facutura_elec);
-
-		$this->otros($xml_doc,$facutura_elec);
-
+		//
 		return $xml_doc->saveXML();
 
 		$consecutivo++;
