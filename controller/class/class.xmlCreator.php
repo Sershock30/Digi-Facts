@@ -11,7 +11,7 @@ class xmlCreator{
 		$num_sucursal = "001";
 		$punto_venta = "00001";
 		$tipo_documento = "01";
-		$numeracion_comprobante = "0000000003";
+		$numeracion_comprobante = "0000000004";
 
 		return $num_sucursal.$punto_venta.$tipo_documento.$numeracion_comprobante;
 
@@ -239,19 +239,19 @@ class xmlCreator{
 		$total_Exento = $doc->createElement("TotalExento",562);
 		$resumen_fac->appendChild($total_Exento);*/
 
-		$total_venta = $doc->createElement("TotalVenta",562);
+		$total_venta = $doc->createElement("TotalVenta",562.55);
 		$resumen_fac->appendChild($total_venta);
 
 		//$total_descuentos = $doc->createElement("TotalDescuentos",562);
 		//$resumen_fac->appendChild($total_descuentos);
 
-		$total_venta_neta = $doc->createElement("TotalVentaNeta",562);
+		$total_venta_neta = $doc->createElement("TotalVentaNeta",562.55);
 		$resumen_fac->appendChild($total_venta_neta);
 
 		//$total_impuesto = $doc->createElement("TotalImpuesto",562);
 		//$resumen_fac->appendChild($total_impuesto);
 
-		$total_comprobante = $doc->createElement("TotalComprobante",562);
+		$total_comprobante = $doc->createElement("TotalComprobante",562.55);
 		$resumen_fac->appendChild($total_comprobante);
 
 	}
@@ -337,7 +337,7 @@ class xmlCreator{
 
 				//Fin Seccion Codigo
 
-				$cantidad = $doc->createElement("Cantidad",$detalles[$i][$j][0]);
+				$cantidad = $doc->createElement("Cantidad",number_format($detalles[$i][$j][0],3));
 				$linea->appendChild($cantidad);
 
 				$uni_medida = $doc->createElement("UnidadMedida","GR");
@@ -349,12 +349,12 @@ class xmlCreator{
 				$detalle = $doc->createElement("Detalle","Venta");
 				$linea->appendChild($detalle);
 
-				$precio_uni = $doc->createElement("PrecioUnitario",$detalles[$i][$j][0]);
+				$precio_uni = $doc->createElement("PrecioUnitario",number_format($detalles[$i][$j][0],3));
 				$linea->appendChild($precio_uni);
 
 				// Calculo Sub total
 
-				$monto_final = $detalles[$i][$j][2] - ($detalles[$i][$j][2]*$descuento);
+				$monto_final = number_format($detalles[$i][$j][2],3) - (number_format($detalles[$i][$j][2],3)*$descuento);
 				$subtotal += $monto_final;
 
 				// Fin Calculo
@@ -453,6 +453,9 @@ class xmlCreator{
 		// Nodos de Resumen de Factura
 		$this->resumenFactura($xml_doc,$facutura_elec);
 		$this->normativa($xml_doc,$facutura_elec);
+
+		$firma = $xml_doc->createElement("FirmaDigital");
+		$facutura_elec->appendChild($firma);
 		//
 		return $xml_doc->saveXML();
 
