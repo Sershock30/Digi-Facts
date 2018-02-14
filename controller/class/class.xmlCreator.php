@@ -286,7 +286,7 @@ class xmlCreator{
 		$num_resolucion = $doc->createElement("NumeroResolucion","DGT-R-48-2016");
 		$normativa->appendChild($num_resolucion);
 
-		$fecha_resolucion = $doc->createElement("FechaResolucion",date("d-m-y"));
+		$fecha_resolucion = $doc->createElement("FechaResolucion",date("d-m-y h:i:s"));
 		$normativa->appendChild($fecha_resolucion);
 
 	}
@@ -306,7 +306,7 @@ class xmlCreator{
 
 	private function detalleFactura($doc,$root,$detalles){
 
-		$detalle = $doc->createElement("DetalleFactura");
+		$detalle = $doc->createElement("DetalleServicio");
 		$root->appendChild($detalle);
 
 		$descuento =0;
