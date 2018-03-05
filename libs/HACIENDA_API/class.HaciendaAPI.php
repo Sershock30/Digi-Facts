@@ -4,13 +4,14 @@ class HaciendaAPI{
 
 
     public function get_Token(){
+              // https://idp.comprobanteselectronicos.go.cr/auth/realms/rut-stag/protocol/openid-connect/token
         $url = 'https://idp.comprobanteselectronicos.go.cr/auth/realms/rut-stag/protocol/openid-connect/token';//access token url
         $data = array('client_id' => 'api-stag',//Test: 'api-stag' Production: 'api-prod'
                       'client_secret' => '',//always empty
                       'grant_type' => 'password', //always 'password'
                       // Credenciales de prueba para certificado HAcienda.
                       'username' => 'cpf-01-1661-0374@stag.comprobanteselectronicos.go.cr', 
-                      'password' => 'D@#WZTA]F:2&=^}28@!Z', 
+                      'password' => 'C/##8Z*j/r$Y.|w]2^07', 
                       'scope' =>'');//always empty
         // use key 'http' even if you send the request to https://...
         $options = array(
