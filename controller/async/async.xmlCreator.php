@@ -11,6 +11,7 @@
 
 	require_once "../class/class.xmlCreator.php";
 	require_once '../../libs/HACIENDA_API/class.HaciendaAPI.php';
+	require_once '../../libs/signature/src/XMLSecurityDSig.php';
 	require_once '../../module/class.conexion.php';
 	require_once '../../module/class.metodos.php';
 	require_once '../../module/class/class.Cliente.php';
@@ -55,7 +56,7 @@
 
 	// echo "<h1>Respuesta del servidor de hacienda</h1>";
 	//echo $Hacienda->send_invoice($Xml_encoded, $token->access_token, $consec, $key);
-	echo $Hacienda->get_invoice_info($token->access_token,"50613021811617092012300100001010000000004156451223");
-
-
+	//echo $Hacienda->get_invoice_info($token->access_token,"50620021811617092012300100001010000000005156451223");
+	print_r($Xml_main);
+	
 ?>

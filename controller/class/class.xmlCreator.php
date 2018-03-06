@@ -1,5 +1,6 @@
 <?php 
 
+
 class xmlCreator{
 
 	public $consecutivo = 2;
@@ -11,7 +12,7 @@ class xmlCreator{
 		$num_sucursal = "001";
 		$punto_venta = "00001";
 		$tipo_documento = "01";
-		$numeracion_comprobante = "0000000004";
+		$numeracion_comprobante = "0000000005";
 
 		return $num_sucursal.$punto_venta.$tipo_documento.$numeracion_comprobante;
 
@@ -453,13 +454,45 @@ class xmlCreator{
 		// Nodos de Resumen de Factura
 		$this->resumenFactura($xml_doc,$facutura_elec);
 		$this->normativa($xml_doc,$facutura_elec);
-
-		$firma = $xml_doc->createElement("FirmaDigital");
-		$facutura_elec->appendChild($firma);
 		//
+
+		$this->signXML($xml_doc);
 		return $xml_doc->saveXML();
 
 		$consecutivo++;
+	}
+
+	private function signXML($rootNode){
+
+		$info =  array();
+		$pass = "1234";
+		$p12 = file_get_contents("../../libs/HACIENDA_API/011661037429.p12");
+		openssl_pkcs12_read($p12,$info,$pass);
+
+		$objDSig = new XMLSecurityDSig();
+		// Use the c14n exclusive canonicalization
+		$objDSig->setCanonicalMethod(XMLSecurityDSig::EXC_C14N);
+		// Sign using SHA-256
+		$objDSig->addReference(
+		    $doc, 
+		    XMLSecurityDSig::SHA256, 
+		    array('http://www.w3.org/2000/09/xmldsig#enveloped-signature')
+		);
+
+		
+		$objKey->passphrase = '1234';
+
+		// Load the private key
+		$objKey->loadKey($info["pkey"], TRUE);
+
+		// Sign the XML file
+		$objDSig->sign($objKey);
+
+		// Add the associated public key to the signature
+		$objDSig->add509Cert($info["cert"]);
+
+		// Append the signature to the XML
+		$objDSig->appendSignature($rootNode->documentElement);
 	}
 }
 
