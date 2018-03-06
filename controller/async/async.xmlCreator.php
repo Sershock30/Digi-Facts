@@ -16,10 +16,6 @@
 	require_once '../../module/class/class.Cliente.php';
 
 
-	// Require al Namespace de los archivos de firma
-	require_once '../../libs/signature/xmlseclibs.php';
-
-
 	//se instancia el objeto de xmlCreator
 	$XmlCreator = new xmlCreator();
 	//Se instancia el objeto de HACIENDA_API
