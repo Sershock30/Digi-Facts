@@ -40,7 +40,7 @@
  * @version   3.0.1
  */
 
-$xmlseclibs_srcdir = dirname(__FILE__) . '/src/';
+$xmlseclibs_srcdir = '../../libs/signature/src/';
 require $xmlseclibs_srcdir . '/XMLSecurityKey.php';
 require $xmlseclibs_srcdir . '/XMLSecurityDSig.php';
 require $xmlseclibs_srcdir . '/XMLSecEnc.php';

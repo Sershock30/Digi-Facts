@@ -11,10 +11,13 @@
 
 	require_once "../class/class.xmlCreator.php";
 	require_once '../../libs/HACIENDA_API/class.HaciendaAPI.php';
-	require_once '../../libs/signature/src/XMLSecurityDSig.php';
 	require_once '../../module/class.conexion.php';
 	require_once '../../module/class.metodos.php';
 	require_once '../../module/class/class.Cliente.php';
+
+
+	// Require al Namespace de los archivos de firma
+	require_once '../../libs/signature/xmlseclibs.php';
 
 
 	//se instancia el objeto de xmlCreator
