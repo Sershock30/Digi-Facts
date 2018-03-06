@@ -17,6 +17,19 @@
 
 	require("../../libs/Signature/Signature.php");
 
+
+	//Uso genérico de Firma del XML
+	$dsig = new XmlDsig\XmlDigitalSignature();
+
+	$dsig->loadPrivateKey('path/to/private/key', 'passphrase');
+	$dsig->loadPublicKey('path/to/public/key');
+
+	$dsig->addObject('I am a data blob.');
+	$dsig->sign();
+
+	$result = $dsig->getSignedDocument();
+	//Se retorna el documento firmado
+
 	//se instancia el objeto de xmlCreator
 	$XmlCreator = new xmlCreator();
 	//Se instancia el objeto de HACIENDA_API
