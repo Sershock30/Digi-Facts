@@ -15,6 +15,7 @@
 	require_once '../../module/class.metodos.php';
 	require_once '../../module/class/class.Cliente.php';
 
+	require("../../libs/Signature/Signature.php");
 
 	//se instancia el objeto de xmlCreator
 	$XmlCreator = new xmlCreator();
