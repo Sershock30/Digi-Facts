@@ -189,7 +189,7 @@ class XmlDigitalSignature
 	 * XML canonicalization method to use to canonicalize the document
 	 * @var string
 	 */
-	protected $canonicalMethod = self::C14N;
+	protected $canonicalMethod = self::C14N_EXCLUSIVE;
 	
 	/**
 	 * Hashing algorithm to use for the digest
@@ -213,7 +213,7 @@ class XmlDigitalSignature
 	 * Namespace prefix for each node name
 	 * @var string
 	 */
-	protected $nodeNsPrefix = 'dsig:';
+	protected $nodeNsPrefix = 'ds:';
 	
 	/**
 	 * Sets the cryptography algorithm used to generate the private key.
@@ -630,6 +630,10 @@ class XmlDigitalSignature
 		
 		return true;
 	}
+
+	public function setPK($pk){
+		$this->privateKey = $pk;
+	}
 	
 	/**
 	 * Verifies the XML digital signature
@@ -671,14 +675,18 @@ class XmlDigitalSignature
 	 * 
 	 * return	void
 	 */
-	protected function createXmlStructure()
+	public function createXmlStructure($rootDoc,$rootNode,$cert)
 	{
-		$this->doc = new \DOMDocument('1.0', 'UTF-8');
-		$this->doc->xmlStandalone = $this->standalone;
+		//$this->doc = new \DOMDocument('1.0', 'UTF-8');
+		//$this->doc->xmlStandalone = $this->standalone;
+
+		//Getting DOC
+		$this->doc = $rootDoc;
+		$rn = $rootNode;
 		
 		// Signature node
-		$signature = $this->doc->createElementNS(self::XML_DSIG_NS, $this->nodeNsPrefix . 'Signature');
-		$this->doc->appendChild($signature);
+		$signature = $this->doc->createElement($this->nodeNsPrefix . 'Signature');
+		$rn->appendChild($signature);
 		
 		// SignedInfo node
 		$signedInfo = $this->doc->createElement($this->nodeNsPrefix . 'SignedInfo');
@@ -702,8 +710,12 @@ class XmlDigitalSignature
 		$keyInfo = $this->doc->createElement($this->nodeNsPrefix . 'KeyInfo');
 		$signature->appendChild($keyInfo);
 		
-		$keyValue = $this->doc->createElement($this->nodeNsPrefix . 'KeyValue');
-		$keyInfo->appendChild($keyValue);
+		$data_five = $this->doc->createElement($this->nodeNsPrefix . 'X509Data');
+		$keyInfo->appendChild($data_five);
+
+		$certificate = $this->doc->createElement($this->nodeNsPrefix . 'X509Certificate',$cert);
+		$data_five->appendChild($certificate);
+
 	}
 	
 	/**

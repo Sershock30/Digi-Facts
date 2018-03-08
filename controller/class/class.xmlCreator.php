@@ -12,7 +12,7 @@ class xmlCreator{
 		$num_sucursal = "001";
 		$punto_venta = "00001";
 		$tipo_documento = "01";
-		$numeracion_comprobante = "0000000005";
+		$numeracion_comprobante = "0000000006";
 
 		return $num_sucursal.$punto_venta.$tipo_documento.$numeracion_comprobante;
 
@@ -456,43 +456,34 @@ class xmlCreator{
 		$this->normativa($xml_doc,$facutura_elec);
 		//
 
-		$this->signXML($xml_doc);
+		$this->signXML($xml_doc,$facutura_elec);
 		return $xml_doc->saveXML();
 
 		$consecutivo++;
 	}
 
-	private function signXML($rootNode){
+	private function signXML($doc,$fac){
 
 		$info =  array();
 		$pass = "1234";
 		$p12 = file_get_contents("../../libs/HACIENDA_API/011661037429.p12");
 		openssl_pkcs12_read($p12,$info,$pass);
+		print_r($info);
+		$certs = trim(str_replace("-----BEGIN CERTIFICATE-----"," ", str_replace("-----END CERTIFICATE-----"," ", $info["cert"])));
+		$pkey = trim(str_replace("-----BEGIN CERTIFICATE-----"," ", str_replace("-----END CERTIFICATE-----"," ", $info["pkey"])));
+		/*$dsig = new XmlDsig\XmlDigitalSignature();
+		$dsig->setCryptoAlgorithm(XmlDsig\XmlDigitalSignature::RSA_ALGORITHM);
+		$dsig->setDigestMethod(XmlDsig\XmlDigitalSignature::DIGEST_SHA256);
+		$dsig->setPK($info["pkey"]);
+		$dsig->createXmlStructure($rootNode,$fac,$certs);
+		$dsig->sign();*/
 
-		$objDSig = new XMLSecurityDSig();
-		// Use the c14n exclusive canonicalization
-		$objDSig->setCanonicalMethod(XMLSecurityDSig::EXC_C14N);
-		// Sign using SHA-256
-		$objDSig->addReference(
-		    $doc, 
-		    XMLSecurityDSig::SHA256, 
-		    array('http://www.w3.org/2000/09/xmldsig#enveloped-signature')
-		);
+		$sig_method = new Signature();
+		$sig_method->setRootDoc($doc);
+		$sig_method->setPK($pkey);
+		$sig_method->setCerts($certs);
+		$sig_method->signXML();
 
-		
-		$objKey->passphrase = '1234';
-
-		// Load the private key
-		$objKey->loadKey($info["pkey"], TRUE);
-
-		// Sign the XML file
-		$objDSig->sign($objKey);
-
-		// Add the associated public key to the signature
-		$objDSig->add509Cert($info["cert"]);
-
-		// Append the signature to the XML
-		$objDSig->appendSignature($rootNode->documentElement);
 	}
 }
 

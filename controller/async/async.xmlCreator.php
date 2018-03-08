@@ -15,20 +15,8 @@
 	require_once '../../module/class.metodos.php';
 	require_once '../../module/class/class.Cliente.php';
 
-	require("../../libs/Signature/Signature.php");
-
-
-	//Uso genérico de Firma del XML
-	$dsig = new XmlDsig\XmlDigitalSignature();
-
-	$dsig->loadPrivateKey('path/to/private/key', 'passphrase');
-	$dsig->loadPublicKey('path/to/public/key');
-
-	$dsig->addObject('I am a data blob.');
-	$dsig->sign();
-
-	$result = $dsig->getSignedDocument();
-	//Se retorna el documento firmado
+	require_once("../../libs/Signature/Signature.php");
+	require_once("../../libs/Signature/SignatureOp3.php");
 
 	//se instancia el objeto de xmlCreator
 	$XmlCreator = new xmlCreator();
@@ -69,7 +57,7 @@
 
 	// echo "<h1>Respuesta del servidor de hacienda</h1>";
 	//echo $Hacienda->send_invoice($Xml_encoded, $token->access_token, $consec, $key);
-	//echo $Hacienda->get_invoice_info($token->access_token,"50620021811617092012300100001010000000005156451223");
+	//echo $Hacienda->get_invoice_info($token->access_token,"50606031811617092012300100001010000000006156451223");
 	print_r($Xml_main);
 	
 ?>
