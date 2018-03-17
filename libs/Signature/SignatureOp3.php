@@ -124,7 +124,8 @@ class Signature
 
 	private function calculateDigestValueXades(){
 
-		$rootNode = $this->doc->getElementsByTagName($this->prefix."X509Certificate")->item(0);
+		$rootNode = $this->doc->getElementsByTagName($this->prefix."X509Data")->item(0);
+
 
 		$c14data =  $rootNode->C14N(true,false);
 
@@ -171,12 +172,11 @@ class Signature
 		$issuer = $this->doc->createElement($xades_prefix."IssuerSerial");
 		$sign_cert->appendChild($issuer);
 
-		$issuer_name = $this->doc->createElement($this->prefix."X509IssuerName","CN=CA SINPE - PERSONA FISICA,OU=DIVISION DE SERVICIOS
-FINANCIEROS,O=BANCO CENTRAL DE COSTA RICA,C=CR,2.5.4.5=#130c342d3030302d303034303137");
-		$cert_digest->appendChild($issuer_name);
+		$issuer_name = $this->doc->createElement($this->prefix."X509IssuerName","CN=CA PERSONA FISICA,OU= DGT,O=MINISTERIO DE HACIENDA, C=CR");
+		$issuer->appendChild($issuer_name);
 
-		$issuer_serial = $this->doc->createElement($this->prefix."X509SerialNumber","207422209224813750547132");
-		$cert_digest->appendChild($issuer_serial);
+		$issuer_serial = $this->doc->createElement($this->prefix."X509SerialNumber","1517500133905");
+		$issuer->appendChild($issuer_serial);
 
 		// END SigningCertificate
 
@@ -191,19 +191,17 @@ FINANCIEROS,O=BANCO CENTRAL DE COSTA RICA,C=CR,2.5.4.5=#130c342d3030302d30303430
 		$sign_poly_identi = $this->doc->createElement($xades_prefix."SigPolicyId");
 		$sign_poly_id->appendChild($sign_poly_identi);
 
-		$identi = $this->doc->createElement($xades_prefix."Identifier","
-https://tribunet.hacienda.go.cr/docs/esquemas/2016/v4.1/Resolucion_Comprobantes_Electronicos_DGT-R-48-
-2016.pdf");
+		$identi = $this->doc->createElement($xades_prefix."Identifier","https://tribunet.hacienda.go.cr/docs/esquemas/2016/v4.1/Resolucion_Comprobantes_Electronicos_DGT-R-48-2016.pdf");
 		$sign_poly_identi->appendChild($identi);
 
 		$sign_poly_hash = $this->doc->createElement($xades_prefix."SigPolicyHash");
 		$sign_poly_id->appendChild($sign_poly_hash);
 
 		$digesmethod2 = $this->doc->createElement($this->prefix."DigestMethod");
-		$digesmethod2->setAttribute("Algorithm","http://www.w3.org/2000/09/xmldsig#sha256");
+		$digesmethod2->setAttribute("Algorithm","http://www.w3.org/2000/09/xmldsig#sha1");
 		$sign_poly_hash->appendChild($digesmethod2);
 
-		$digestvalue2 = $this->doc->createElement($this->prefix."DigestValue");
+		$digestvalue2 = $this->doc->createElement($this->prefix."DigestValue",base64_encode(hash("sha1",$this->doc->getElementsByTagName($xades_prefix."SignaturePolicyIdentifier")->item(0)->C14N(true,false),false))); // por calcular
 		$sign_poly_hash->appendChild($digestvalue2);
 
 		// End SignaturePolicyIdentifier
@@ -216,7 +214,7 @@ https://tribunet.hacienda.go.cr/docs/esquemas/2016/v4.1/Resolucion_Comprobantes_
 		$sign_data_format = $this->doc->createElement($xades_prefix."DataObjectFormat");
 		$sign_data->appendChild($sign_data_format);
 
-		$sign_data_mime = $this->doc->createElement($xades_prefix."MimeType","application/octet-stream");
+		$sign_data_mime = $this->doc->createElement($xades_prefix."MimeType","text/xml");
 		$sign_data_format->appendChild($sign_data_mime);
 
 		// END SignedDataObjectProperties

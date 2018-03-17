@@ -12,7 +12,7 @@ class xmlCreator{
 		$num_sucursal = "001";
 		$punto_venta = "00001";
 		$tipo_documento = "01";
-		$numeracion_comprobante = "0000000006";
+		$numeracion_comprobante = "0000000009";
 
 		return $num_sucursal.$punto_venta.$tipo_documento.$numeracion_comprobante;
 
@@ -429,34 +429,36 @@ class xmlCreator{
 		
 		// Nodo Raiz
 
-		$facutura_elec = $xml_doc->createElement("FacuturaElectronica");
-		$xml_doc->appendChild($facutura_elec);
+		$factura_elec = $xml_doc->createElement("FacuturaElectronica");
+		$factura_elec->setAttribute("xmlns","https://tribunet.hacienda.go.cr/docs/esquemas/2017/v4.2/facturaElectronica");
+		$factura_elec->setAttribute("xmlns:xsi","http://www.w3.org/2001/XMLSchema");
+		$xml_doc->appendChild($factura_elec);
 
 		//
 		// Nodos Obligatorios
 
 		$clave = $xml_doc->createElement("Clave", $key);
-		$facutura_elec->appendChild($clave);
+		$factura_elec->appendChild($clave);
 		//
 		$num_consecutivo = $xml_doc->createElement("NumeroConsecutivo",$consecutivo);
-		$facutura_elec->appendChild($num_consecutivo);
+		$factura_elec->appendChild($num_consecutivo);
 		//
 		$fecha_emision = $xml_doc->createElement("FechaEmision",date(DATE_ATOM));
-		$facutura_elec->appendChild($fecha_emision);
+		$factura_elec->appendChild($fecha_emision);
 
-		$this->emisorInfo($xml_doc,$facutura_elec);
+		$this->emisorInfo($xml_doc,$factura_elec);
 
 		//$this->receptorInfo($xml_doc,$facutura_elec);
 
 		// Fin Nodo de Informacion de Ventas
-		$this->infoVenta($xml_doc,$facutura_elec);
-		$this->detalleFactura($xml_doc,$facutura_elec, array($_POST["detalle"]));
+		$this->infoVenta($xml_doc,$factura_elec);
+		$this->detalleFactura($xml_doc,$factura_elec, array($_POST["detalle"]));
 		// Nodos de Resumen de Factura
-		$this->resumenFactura($xml_doc,$facutura_elec);
-		$this->normativa($xml_doc,$facutura_elec);
+		$this->resumenFactura($xml_doc,$factura_elec);
+		$this->normativa($xml_doc,$factura_elec);
 		//
 
-		$this->signXML($xml_doc,$facutura_elec);
+		$this->signXML($xml_doc,$factura_elec);
 		return $xml_doc->saveXML();
 
 		$consecutivo++;

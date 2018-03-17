@@ -57,7 +57,7 @@
 
 	// echo "<h1>Respuesta del servidor de hacienda</h1>";
 	//echo $Hacienda->send_invoice($Xml_encoded, $token->access_token, $consec, $key);
-	//echo $Hacienda->get_invoice_info($token->access_token,"50606031811617092012300100001010000000006156451223");
-	print_r($Xml_main);
+	echo $Hacienda->get_invoice_info($token->access_token,"50612031811617092012300100001010000000009156451223");
+	//print_r($Xml_main);
 	
 ?>
