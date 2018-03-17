@@ -9,55 +9,76 @@
 		"data"=>""
 	];
 
-	require_once "../class/class.xmlCreator.php";
-	require_once '../../libs/HACIENDA_API/class.HaciendaAPI.php';
-	require_once '../../module/class.conexion.php';
-	require_once '../../module/class.metodos.php';
-	require_once '../../module/class/class.Cliente.php';
+	if (isset($_POST['function'])) {
+		
+		//se establece un switch para las diferentes funciones que se pueden ejecutar en el async.
+		switch ($_POST['function']) {
 
-	require_once("../../libs/Signature/Signature.php");
-	require_once("../../libs/Signature/SignatureOp3.php");
+			case 'CreateXML':
+				require_once "../class/class.xmlCreator.php";
+				require_once '../../libs/HACIENDA_API/class.HaciendaAPI.php';
+				require_once '../../module/class.conexion.php';
+				require_once '../../module/class.metodos.php';
+				require_once '../../module/class/class.Cliente.php';
 
-	//se instancia el objeto de xmlCreator
-	$XmlCreator = new xmlCreator();
-	//Se instancia el objeto de HACIENDA_API
-	$Hacienda = new HaciendaAPI();
-	//Se instancia el objeto de Cliente
-	$Cliente = new Cliente();
+				require_once("../../libs/Signature/Signature.php");
+				require_once("../../libs/Signature/SignatureOp3.php");
 
-
-	//se obtiene la información del cliente. (En la sesión solo se guarda el codigo)
-	//$clienteInfo = $Cliente->GetDataCliente($_SESSION['Cliente']['codigo']);
-
-
-	//se establece el consecutivo
-	$consec = 2; //$clienteInfo['consecutivo'];
-
-	//Se obtiene la llave
-
-	$key = $XmlCreator->get_key();
-
-	// Los 2 prints son lo que recive el responde, puede verlo en la consola de js
-	$Xml_main = $XmlCreator->createXML($key);
-	$Xml_encoded = base64_encode($Xml_main);
+				//se instancia el objeto de xmlCreator
+				$XmlCreator = new xmlCreator();
+				//Se instancia el objeto de HACIENDA_API
+				$Hacienda = new HaciendaAPI();
+				//Se instancia el objeto de Cliente
+				$Cliente = new Cliente();
 
 
-	// se llama  la funcion para obtener el Token
-	$token = $Hacienda->get_Token();
-	//$Hacienda->send_invoice($xml_encoded, $token, $consec, $key);
+				//se obtiene la información del cliente. (En la sesión solo se guarda el codigo)
+				//$clienteInfo = $Cliente->GetDataCliente($_SESSION['Cliente']['codigo']);
 
-	//echo json_encode($response);
 
-	// echo "<h1>Token de acceso</h1>";
-	// print_r($token->access_token);
-	// echo "<hr>";
-	// echo "<h1>Version de CURL</h1>";
-	// echo function_exists('curl_version');
-	// echo "<hr>";
+				//se establece el consecutivo
+				$consec = 2; //$clienteInfo['consecutivo'];
 
+				//Se obtiene la llave
+
+				$key = $XmlCreator->get_key();
+
+				// Los 2 prints son lo que recive el responde, puede verlo en la consola de js
+				$Xml_main = $XmlCreator->createXML($key);
+				$Xml_encoded = base64_encode($Xml_main);
+
+
+				// se llama  la funcion para obtener el Token
+				$token = $Hacienda->get_Token();
+				//$Hacienda->send_invoice($xml_encoded, $token, $consec, $key);
+
+				//echo json_encode($response);
+
+<<<<<<< HEAD
 	// echo "<h1>Respuesta del servidor de hacienda</h1>";
 	//echo $Hacienda->send_invoice($Xml_encoded, $token->access_token, $consec, $key);
 	echo $Hacienda->get_invoice_info($token->access_token,"50612031811617092012300100001010000000009156451223");
 	//print_r($Xml_main);
+=======
+				// echo "<h1>Token de acceso</h1>";
+				// print_r($token->access_token);
+				// echo "<hr>";
+				// echo "<h1>Version de CURL</h1>";
+				// echo function_exists('curl_version');
+				// echo "<hr>";
+
+				// echo "<h1>Respuesta del servidor de hacienda</h1>";
+				echo $Hacienda->send_invoice($Xml_encoded, $token->access_token, $consec, $key);
+				echo $Hacienda->get_invoice_info($token->access_token,"50606031811617092012300100001010000000006156451223");
+				print_r($Xml_main);
+				break;
+			
+			default:
+				# code...
+				break;
+		}
+
+	}
+>>>>>>> b2da0b91462eed63461036aa76539b9b33ee2c35
 	
 ?>

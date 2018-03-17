@@ -4,7 +4,7 @@ include "../../config_files/config.php";
 
 session_start();
 
-if (!isset($_SESSION['ID'])) {
+if (!isset($_SESSION['Admin'])) {
 	?>
 	<!DOCTYPE html>
 	<html lang="es">
